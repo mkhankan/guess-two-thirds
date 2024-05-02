@@ -8,7 +8,7 @@ summary of the project and details of the implementation.
  
 ## Challenges
  
-1. Challenge #1 with details
+1. Extracting the pseudonym and ticket number from the message. Solved with `string.substring(beginIndex);`
 2. Challenge #2 with details
 3. ...
  
