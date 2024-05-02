@@ -12,6 +12,7 @@ import java.util.Map;
 public class Player implements Runnable {
     private final Socket clientSocket;
     private static final Map<String, String> tickets = new HashMap<>();
+    private static int seq = 0;
     public Player(Socket clientSocket) {
         this.clientSocket = clientSocket;
     }
@@ -28,7 +29,8 @@ public class Player implements Runnable {
             // Handle identification
             if (identification.startsWith("pseudo ")) {
                 String pseudo = identification.substring(7); // Extract pseudonym
-                String ticket = generateTicket(); // Generate ticket
+                String ticket = generateTicket(String.valueOf(seq)); // Generate ticket
+                seq++;
                 tickets.put(ticket, pseudo); // Store ticket-pseudonym pair
                 out.println("TICKET " + ticket); // Send ticket to client
             } else if (identification.startsWith("ticket ")) {
