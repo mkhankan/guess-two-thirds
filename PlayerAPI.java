@@ -10,7 +10,7 @@ public interface PlayerAPI {
      */
     void pseudo(String pseudonym);
     void ticket(String ticket);
-    void join(String game);
-    void ready(String game);
-    void guess(String game, int number);
+    void join(Game game);
+    void ready(Game game);
+    void guess(Game game, int number);
 }
