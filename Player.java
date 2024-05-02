@@ -3,10 +3,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.HexFormat;
+import java.util.Map;
 
 public class Player implements Runnable {
     private final Socket clientSocket;
-
+    private static final Map<String, String> tickets = new HashMap<>();
     public Player(Socket clientSocket) {
         this.clientSocket = clientSocket;
     }
@@ -59,5 +64,16 @@ public class Player implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    static String generateTicket(String seq) {
+        byte[] hash = String.format("%32s", seq).getBytes();
+        try {
+            for (int i = 0; i < Math.random() * 64 + 1; ++i) {
+                hash = MessageDigest.getInstance("SHA-256").digest(hash);
+            }
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return HexFormat.ofDelimiter(":").formatHex(hash).toString().substring(78);
     }
 }
