@@ -27,6 +27,13 @@ public class Client {
             String response = in.readLine();
             System.out.println("Server response: " + response);
 
+            // Join a game
+            out.println("join MyGame"); // Example game name
+
+            // Handle server response to game join request
+            String gameResponse = in.readLine();
+            System.out.println("Server response to game join: " + gameResponse);
+
             // Close connections
             in.close();
             out.close();

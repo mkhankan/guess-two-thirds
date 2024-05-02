@@ -72,10 +72,23 @@ public class Server {
                     out.println("ERROR Invalid identification"); // Send error message to client
                 }
 
+                // Handle game joining
+                while (true) {
+                    String request = in.readLine();
+                    if (request.startsWith("join ")) {
+                        String gameName = request.substring(5);
+                        // For now, let's just acknowledge the request
+                        out.println("JOINED " + gameName);
+                    } else {
+                        out.println("ERROR Invalid request"); // Send error message to client
+                    }
+                }
+
                 // Close connections
-                in.close();
-                out.close();
-                clientSocket.close();
+                // (Note: This part will be unreachable in this implementation because of the infinite loop)
+                // in.close();
+                // out.close();
+                // clientSocket.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
