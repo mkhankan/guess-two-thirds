@@ -79,6 +79,7 @@ public class Server {
                         String gameName = request.substring(5);
                         // For now, let's just acknowledge the request
                         out.println("JOINED " + gameName);
+                        break;
                     } else {
                         out.println("ERROR Invalid request"); // Send error message to client
                     }
