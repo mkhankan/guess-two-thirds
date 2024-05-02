@@ -5,7 +5,8 @@ summary of the project and details of the implementation.
 ## Team
  
 - Marwan Khankan mk2108477@qu.edu.qa
- 
+- Abdulla Al-malki aa2009135@qu.edu.qa
+- 
 ## Challenges
  
 1. Extracting the pseudonym and ticket number from the message. Solved with `string.substring(beginIndex);`
