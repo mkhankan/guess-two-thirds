@@ -31,10 +31,10 @@ public class Client {
             this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             this.out = new PrintWriter(socket.getOutputStream(), true);
         }catch (IOException e){
-            closeEverything(socket, in, out);
+            closeConnection(socket, in, out);
         }
     }
-    public void closeEverything(Socket socket, BufferedReader bufferedReader, PrintWriter printWriter){
+    public void closeConnection(Socket socket, BufferedReader bufferedReader, PrintWriter printWriter){
         try {
             if (bufferedReader != null) {
                 bufferedReader.close();
@@ -60,7 +60,7 @@ public class Client {
                         msgFromServer = in.readLine();
                         System.out.println(msgFromServer);
                     }catch (IOException e){
-                        closeEverything(socket,in,out);
+                        closeConnection(socket,in,out);
                     }
                 }
             }
@@ -96,7 +96,7 @@ public class Client {
 //        }
     }
 
-    static String timestamp() {
+    static String timeStamp() {
         return LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
     }
 }
