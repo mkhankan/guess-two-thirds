@@ -1,5 +1,5 @@
 
-**Rules of the game**
+### Rules of the game
 Range 0 - 100
 Starting 5 points
 Losing -1
