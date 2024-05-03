@@ -1,17 +1,15 @@
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Server {
     private static final int PORT = 13337;
     private ServerSocket serverSocket;
 
-    private List<Player> playersList = Collections.synchronizedList(new ArrayList<>());
-//    private List<Ticket> playersList = Collections.synchronizedList(new ArrayList<>());
-    private List<Game> gamesList = Collections.synchronizedList(new ArrayList<>());
+    public static List<Player> playersList = Collections.synchronizedList(new ArrayList<>());
+    public static Map<String,String> ticketsMap = Collections.synchronizedMap(new HashMap<>());
+    public static List<Game> gamesList = Collections.synchronizedList(new ArrayList<>());
 
     public Server(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;
