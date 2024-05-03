@@ -26,6 +26,15 @@ public class Server implements ClientAPI{
         this.serverSocket = serverSocket;
     }
 
+    public static Game getGame(String gameName) {
+        for (Game game : gamesList){
+            if(game.getName().equalsIgnoreCase(gameName)){
+                return game;
+            }
+        }
+        return null;
+    }
+
     public void startServer() {
         System.out.println("main.Server started. Waiting for clients...");
         try {

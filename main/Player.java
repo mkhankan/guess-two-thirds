@@ -17,6 +17,7 @@ public class Player implements Runnable, ServerAPI{
     private int points;
     private int guess;
     private Game joinedGame;
+    private String name;
 
     public Player(Socket clientSocket) {
         try {
@@ -41,6 +42,13 @@ public class Player implements Runnable, ServerAPI{
 
     public int getGuess(){
         return this.guess;
+    }
+    public void setName(String name){
+        this.name= name;
+    }
+
+    public String getName(){
+        return this.name;
     }
 
     public void closeEverything(Socket socket, BufferedReader bufferedReader, PrintWriter printWriter) {
@@ -102,7 +110,7 @@ public class Player implements Runnable, ServerAPI{
             case "guess":
                 if (joinedGame != null) {
                     int number = Integer.parseInt(parts[1]); // Extract the guessed number
-                    guess(joinedGame, number);
+                    guess(game,number);
                 } else {
                     out.println("ERROR You have not joined any game."); // Send error message to client
                 }
@@ -180,15 +188,15 @@ public class Player implements Runnable, ServerAPI{
     @Override
     public void ready(Game game) {
         // Set player's readiness status
-        game.setReady(player);
+        game.getName();
         // Send acknowledgment to the player
         out.println("You are ready for the game.");
     }
 
     @Override
-    public void guess(Game game, int number) {
+    public void guess(Game game,int number) {
         // Set player's guess
-        game.setGuess(player, number);
+        this.setGuess(number);
         // Send acknowledgment to the player
         out.println("Your guess has been recorded.");
     }
