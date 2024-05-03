@@ -176,11 +176,14 @@ public class Player implements Runnable, ServerAPI{
     }
 
     @Override
-    public boolean ready(Game game) {
-
+    public void ready(Game game) {
+        // Set player's readiness status
+        game.setReady(player);
+        // Send acknowledgment to the player
+        out.println("You are ready for the game.");
     }
 
     @Override
-    public boolean guess(Game game, int number) {
-
+    public void guess(Game game, int number) {
+    }
     }
