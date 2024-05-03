@@ -28,6 +28,7 @@ summary of the project and details of the implementation.
 | Marwan  | 2024-05-02 | Implemented a basic server and client   |
 | Abdulla | 2024-05-03 | Did some cleaning to the OOP structure  |
 | Marwan  | 2024-05-04 | Create interfaces and organize the code |
+| Osamah  | 2024-05-04 | add to contribution                     |
  
 ## References
 - [Java Socket Programming - Multiple Clients Chat](https://youtu.be/gLfuZrrfKes) heavily inspired the socket, client, server basics.
