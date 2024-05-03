@@ -14,7 +14,7 @@ After every round:
 
 Last round: If a player selects 0, they lose
 
-**Game**
+**main.Game**
 - 2 - 6 players
 - When one joins, notify others and show them the players
 - No one can join after the game starts
@@ -23,7 +23,7 @@ Last round: If a player selects 0, they lose
 - Timeout for reply from client
 - If all players choose the same number, all lose
 
-**Server**
+**main.Server**
 - Write nickname. The ticket will be a unique ID + nickname. The counter increments. Add it to a list and check before joining a game
 - Show all players on the server
 - Join a game - create a game
@@ -34,14 +34,14 @@ Order:
 2. All the players
 3. All the games / create a new game / join
 
-**Server implementation**
-- Client.java
+**main.Server implementation**
+- main.Client.java
     - Provide server IP and port through the keyboard
-- Game.java
+- main.Game.java
     - Unique ID
     - To handle game rules
-- Player.java (implements Runnable)
+- main.Player.java (implements Runnable)
 - Main menu - use boolean to check if the game started
-- Server.java
+- main.Server.java
     - Multi-threaded
     - Port 13337

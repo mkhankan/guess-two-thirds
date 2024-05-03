@@ -1,3 +1,5 @@
+package main;
+
 import java.io.*;
 import java.net.Socket;
 import java.time.LocalDateTime;
@@ -64,14 +66,14 @@ public class Client {
 //            }
 //            // Handle server response to identification
 //            String response = in.readLine();
-//            System.out.println("Server response: " + response);
+//            System.out.println("main.Server response: " + response);
 //
 //            // Join a game
 //            out.println("join MyGame"); // Example game name
 //
 //            // Handle server response to game join request
 //            String gameResponse = in.readLine();
-//            System.out.println("Server response to game join: " + gameResponse);
+//            System.out.println("main.Server response to game join: " + gameResponse);
 
             Scanner scanner = new Scanner(System.in);
             while (socket.isConnected()){

@@ -1,10 +1,10 @@
+package main;
+
 import java.io.*;
 import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
 import java.util.HexFormat;
-import java.util.Map;
 
 public class Player implements Runnable {
     private Socket clientSocket;
