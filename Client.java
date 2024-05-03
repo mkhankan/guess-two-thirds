@@ -1,5 +1,7 @@
 import java.io.*;
 import java.net.Socket;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class Client {
@@ -80,6 +82,11 @@ public class Client {
 //            closeEverything(socket,in,out);
 //        }
     }
+
+    static String timestamp() {
+        return LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+    }
+
     public static void main(String[] args) throws IOException {
             Socket socket = new Socket(SERVER_ADDRESS, PORT);
             System.out.println("Connected to server: " + SERVER_ADDRESS + ":" + PORT);
