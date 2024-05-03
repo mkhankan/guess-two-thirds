@@ -14,6 +14,8 @@ public class Player implements Runnable, ServerAPI{
     private static int seq = 0;
     private BufferedReader in;
     private PrintWriter out;
+    private int points;
+    private int guess;
 
     public Player(Socket clientSocket) {
         try {
@@ -23,6 +25,21 @@ public class Player implements Runnable, ServerAPI{
         } catch (IOException e) {
             closeEverything(this.clientSocket, in, out);
         }
+    }
+
+    public void setPoints(int points){
+        this.points=points;
+    }
+
+    public int getPoints(){
+        return this.points;
+    }
+    public void setGuess(int guess){
+        this.guess=guess;
+    }
+
+    public int getGuess(){
+        return this.guess;
     }
 
     public void closeEverything(Socket socket, BufferedReader bufferedReader, PrintWriter printWriter) {
