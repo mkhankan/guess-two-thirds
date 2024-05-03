@@ -24,12 +24,14 @@ public class Client {
     private Socket socket;
     private BufferedReader in;
     private PrintWriter out;
+    private Scanner scanner;
 
     public Client(Socket socket){
         try {
             this.socket = socket;
             this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             this.out = new PrintWriter(socket.getOutputStream(), true);
+            this.scanner = new Scanner(System.in);
         }catch (IOException e){
             closeConnection(socket, in, out);
         }
@@ -69,11 +71,10 @@ public class Client {
 
     public void sendMessage(){
 
-            Scanner scanner = new Scanner(System.in);
-            while (socket.isConnected()){
-                String messageToSend = scanner.nextLine();
-                out.println(messageToSend);
-            }
+        while (socket.isConnected()){
+            String messageToSend = scanner.nextLine();
+            out.println(messageToSend);
+        }
 
     }
 
