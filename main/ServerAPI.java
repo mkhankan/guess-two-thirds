@@ -12,7 +12,7 @@ public interface ServerAPI {
      */
     void pseudo(String pseudonym);
     boolean ticket(String ticket);
-    void join(Game game);
-    void ready(Game game);
-    void guess(Game game, int number);
+    boolean join(Game game);
+    boolean ready(Game game);
+    boolean guess(Game game, int number);
 }

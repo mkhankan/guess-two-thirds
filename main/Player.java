@@ -150,17 +150,17 @@ public class Player implements Runnable, ServerAPI{
     }
 
     @Override
-    public void join(Game game) {
+    public boolean join(Game game) {
 
     }
 
     @Override
-    public void ready(Game game) {
+    public boolean ready(Game game) {
 
     }
 
     @Override
-    public void guess(Game game, int number) {
+    public boolean guess(Game game, int number) {
 
     }
 }
