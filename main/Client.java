@@ -10,6 +10,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class Client {
+    public static void main(String[] args) throws IOException {
+        Socket socket = new Socket(SERVER_ADDRESS, PORT);
+        System.out.println("Connected to server: " + SERVER_ADDRESS + ":" + PORT);
+
+        Client client = new Client(socket);
+        client.listenForMessages();
+        client.sendMessage();
+    }
     private static final String SERVER_ADDRESS = "localhost";
     private static final int PORT = 13337;
 
@@ -90,14 +98,5 @@ public class Client {
 
     static String timestamp() {
         return LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-    }
-
-    public static void main(String[] args) throws IOException {
-            Socket socket = new Socket(SERVER_ADDRESS, PORT);
-            System.out.println("Connected to server: " + SERVER_ADDRESS + ":" + PORT);
-
-            Client client = new Client(socket);
-            client.listenForMessages();
-            client.sendMessage();
     }
 }

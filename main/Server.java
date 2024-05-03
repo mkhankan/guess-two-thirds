@@ -10,6 +10,11 @@ import java.util.List;
 import java.util.Map;
 
 public class Server {
+    public static void main(String[] args) throws IOException {
+        ServerSocket serverSocket = new ServerSocket(PORT);
+        Server server = new Server(serverSocket);
+        server.startServer();
+    }
     private static final int PORT = 13337;
     private ServerSocket serverSocket;
 
@@ -46,10 +51,4 @@ public class Server {
 
     }
 
-
-    public static void main(String[] args) throws IOException {
-        ServerSocket serverSocket = new ServerSocket(PORT);
-        Server server = new Server(serverSocket);
-        server.startServer();
-    }
 }
