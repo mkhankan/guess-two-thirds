@@ -68,32 +68,13 @@ public class Client {
     }
 
     public void sendMessage(){
-//        try {
-//            String message = in.readLine(); // Read server message
-//            if (message.startsWith("IDENT")) {
-//                // Send identification (pseudo or ticket)
-//                out.println("pseudo marwan");
-//                //out.println("ticket TEST1234");
-//            }
-//            // Handle server response to identification
-//            String response = in.readLine();
-//            System.out.println("main.Server response: " + response);
-//
-//            // Join a game
-//            out.println("join MyGame"); // Example game name
-//
-//            // Handle server response to game join request
-//            String gameResponse = in.readLine();
-//            System.out.println("main.Server response to game join: " + gameResponse);
 
             Scanner scanner = new Scanner(System.in);
             while (socket.isConnected()){
                 String messageToSend = scanner.nextLine();
                 out.println(messageToSend);
             }
-//        }catch (IOException e){
-//            closeEverything(socket,in,out);
-//        }
+
     }
 
     static String timeStamp() {

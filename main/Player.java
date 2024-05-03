@@ -11,7 +11,6 @@ import java.util.HexFormat;
 
 public class Player implements Runnable {
     private Socket clientSocket;
-    //    private static final Map<String, String> tickets = new HashMap<>();
     private static int seq = 0;
     private BufferedReader in;
     private PrintWriter out;
@@ -49,11 +48,7 @@ public class Player implements Runnable {
                 handleIdent();
 
                 handleGameJoin();
-                // Close connections
-                // (Note: This part will be unreachable in this implementation because of the infinite loop)
-                // in.close();
-                // out.close();
-                // clientSocket.close();
+
             } catch (IOException e) {
                 closeEverything(clientSocket, in, out);
                 break;
