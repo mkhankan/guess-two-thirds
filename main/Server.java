@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Server {
+public class Server implements ClientAPI{
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = new ServerSocket(PORT);
         Server server = new Server(serverSocket);
@@ -51,4 +51,53 @@ public class Server {
 
     }
 
+    @Override
+    public void ident() {
+
+    }
+
+    @Override
+    public void ticket(String ticket) {
+
+    }
+
+    @Override
+    public void menu(List<Player> players, List<Game> games) {
+
+    }
+
+    @Override
+    public void list(Game game, List<Player> players) {
+
+    }
+
+    @Override
+    public void notify(Game game, Player player) {
+
+    }
+
+    @Override
+    public void start(Game game) {
+
+    }
+
+    @Override
+    public void round(Game game, int number, List<Player> players, List<Integer> guesses, List<Integer> points, List<Boolean> results, List<Player> eliminated) {
+
+    }
+
+    @Override
+    public void end(Game game, Player player) {
+
+    }
+
+    @Override
+    public void info(String message) {
+
+    }
+
+    @Override
+    public void error(String message) {
+
+    }
 }

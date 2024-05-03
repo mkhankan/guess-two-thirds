@@ -11,7 +11,7 @@ public interface ServerAPI {
     number	receive player guess for current round of game
      */
     void pseudo(String pseudonym);
-    void ticket(String ticket);
+    boolean ticket(String ticket);
     void join(Game game);
     void ready(Game game);
     void guess(Game game, int number);

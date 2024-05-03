@@ -9,7 +9,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HexFormat;
 
-public class Player implements Runnable {
+public class Player implements Runnable, ServerAPI{
     private Socket clientSocket;
     private static int seq = 0;
     private BufferedReader in;
@@ -65,25 +65,13 @@ public class Player implements Runnable {
             // Handle identification
             if (identification.startsWith("pseudo ")) {
                 String pseudo = identification.substring(7); // Extract pseudonym
-                String ticket = generateTicket(String.valueOf(seq)); // Generate ticket
-                seq++;
-                synchronized (Server.ticketsMap) {
-                    Server.ticketsMap.put(ticket, pseudo); // Store ticket-pseudonym pair
-                }
-                out.println("TICKET " + ticket); // Send ticket to client
+                pseudo(pseudo); // Generate new ticket and associate it with pseudonym
                 break;
             } else if (identification.startsWith("ticket ")) {
                 String ticket = identification.substring(7); // Extract ticket
-                String pseudo;
-                synchronized (Server.ticketsMap) {
-                    pseudo = Server.ticketsMap.get(ticket); // Get pseudonym associated with ticket
-                }
-                if (pseudo != null) {
-                    out.println("WELCOME " + pseudo); // Send welcome message to client
+                boolean isValid = ticket(ticket); // Validate received ticket and, if valid, welcome player with pseudonym
+                if (isValid)
                     break;
-                } else {
-                    out.println("ERROR Invalid ticket"); // Send error message to client
-                }
             } else {
                 out.println("ERROR Invalid identification"); // Send error message to client
             }
@@ -115,5 +103,47 @@ public class Player implements Runnable {
             e.printStackTrace();
         }
         return HexFormat.ofDelimiter(":").formatHex(hash).toString().substring(78);
+    }
+
+    @Override
+    public void pseudo(String pseudonym) {
+        String ticket = generateTicket(String.valueOf(seq)); // Generate ticket
+        seq++;
+        synchronized (Server.ticketsMap) {
+            Server.ticketsMap.put(ticket, pseudonym); // Store ticket-pseudonym pair
+        }
+        out.println("TICKET " + ticket); // Send ticket to client
+
+    }
+
+    @Override
+    public boolean ticket(String ticket) {
+        String pseudo;
+        synchronized (Server.ticketsMap) {
+            pseudo = Server.ticketsMap.get(ticket); // Get pseudonym associated with ticket
+        }
+        if (pseudo != null) {
+            out.println("WELCOME " + pseudo); // Send welcome message to client
+            return true;
+        } else {
+            out.println("ERROR Invalid ticket"); // Send error message to client
+        }
+        return false;
+
+    }
+
+    @Override
+    public void join(Game game) {
+
+    }
+
+    @Override
+    public void ready(Game game) {
+
+    }
+
+    @Override
+    public void guess(Game game, int number) {
+
     }
 }
