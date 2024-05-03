@@ -167,7 +167,7 @@ public class Player implements Runnable, ServerAPI{
 
     @Override
     public boolean ready(Game game) {
-        
+
     }
 
     @Override
