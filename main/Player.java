@@ -102,8 +102,8 @@ public class Player implements Runnable, ServerAPI{
             if (request.startsWith("join ")) {
                 String gameName = request.substring(5);
                 // For now, let's just acknowledge the request
-                out.println("JOINED " + gameName);
-                break;
+                if (join(gameName))
+                    break;
             } else {
                 out.println("ERROR Invalid request"); // Send error message to client
             }
@@ -148,19 +148,29 @@ public class Player implements Runnable, ServerAPI{
         return false;
 
     }
-
     @Override
-    public boolean join(Game game) {
-
+    public boolean join(String gameName) {
+        // Check if the game exists
+        Game game = Server.getGame(gameName);
+        if (game != null && !game.getPlayers().contains(this)) {
+            // Add this player to the game
+            game.addPlayer(this);
+            // Send acknowledgment to the client
+            out.println("JOINED " + game.getName());
+            return true;
+        } else {
+            // Send error message to client if the game doesn't exist
+            out.println("ERROR Game does not exist");
+            return false;
+        }
     }
 
     @Override
     public boolean ready(Game game) {
-
+        
     }
 
     @Override
     public boolean guess(Game game, int number) {
 
     }
-}
