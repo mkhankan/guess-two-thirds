@@ -107,6 +107,14 @@ public class Player implements Runnable, ServerAPI{
                     error("You have not joined any game.");
                 }
                 break;
+            case "chat":
+                if (joinedGame != null) {
+                    String message = request.substring(5); // Extract the message
+                    joinedGame.chat(this, message);
+                } else {
+                    error("You have not joined any game.");
+                }
+                break;
             default:
                 error("Invalid request.");
                 break;
@@ -136,6 +144,9 @@ public class Player implements Runnable, ServerAPI{
         seq++;
         synchronized (Server.ticketsMap) {
             Server.ticketsMap.put(ticket, pseudonym); // Store ticket-pseudonym pair
+        }
+        synchronized (Server.playersList) {
+            Server.playersList.add(this); // Add player to the list of players
         }
         out.println("TICKET " + ticket); // Send ticket to client
 
@@ -172,6 +183,9 @@ public class Player implements Runnable, ServerAPI{
             out.println("Game does not exist. Creating a new game...");
             // Create a new game
             joinedGame = new Game(gameName);
+            synchronized (Server.gamesList){
+                Server.gamesList.add(joinedGame);
+            }
             // Add this player to the game
             joinedGame.addPlayer(this);
             // Add the game to the list of games
@@ -185,7 +199,7 @@ public class Player implements Runnable, ServerAPI{
     @Override
     public void ready(Game game) {
         // Set player's readiness status
-        game.setReady(player);
+        game.setReady(this);
         // Send acknowledgment to the player
         out.println("You are ready for the game.");
     }
@@ -193,7 +207,7 @@ public class Player implements Runnable, ServerAPI{
     @Override
     public void guess(Game game, int number) {
         // Set player's guess
-        game.setGuess(player, number);
+        game.setGuess(this, number);
         // Send acknowledgment to the player
         out.println("Your guess has been recorded.");
     }
