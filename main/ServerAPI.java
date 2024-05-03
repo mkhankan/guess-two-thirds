@@ -15,4 +15,5 @@ public interface ServerAPI {
     boolean join(String gameName);
     void ready(Game game);
     void guess(Game game, int number);
+    void error(String error);
 }

@@ -85,7 +85,7 @@ public class Player implements Runnable, ServerAPI{
                 String ticket = request.substring(7); // Extract ticket
                 boolean isValid = ticket(ticket); // Validate received ticket and, if valid, welcome player with pseudonym
                 if (!isValid) {
-                    out.println("ERROR Invalid ticket"); // Send error message to client
+                    error("Invalid ticket");
                 }
                 break;
             case "join":
@@ -96,7 +96,7 @@ public class Player implements Runnable, ServerAPI{
                 if (joinedGame != null) {
                     ready(joinedGame);
                 } else {
-                    out.println("ERROR You have not joined any game."); // Send error message to client
+                    error("You have not joined any game.");
                 }
                 break;
             case "guess":
@@ -104,13 +104,18 @@ public class Player implements Runnable, ServerAPI{
                     int number = Integer.parseInt(parts[1]); // Extract the guessed number
                     guess(joinedGame, number);
                 } else {
-                    out.println("ERROR You have not joined any game."); // Send error message to client
+                    error("You have not joined any game.");
                 }
                 break;
             default:
-                out.println("ERROR Invalid request"); // Send error message to client
+                error("Invalid request.");
                 break;
         }
+    }
+
+    @Override
+    public void error(String error){
+        out.println("ERROR "+error);
     }
 
     static String generateTicket(String seq) {
@@ -146,7 +151,7 @@ public class Player implements Runnable, ServerAPI{
             out.println("WELCOME " + pseudo); // Send welcome message to client
             return true;
         } else {
-            out.println("ERROR Invalid ticket"); // Send error message to client
+            error("Invalid ticket");
         }
         return false;
 
