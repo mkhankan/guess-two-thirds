@@ -16,6 +16,7 @@ public class Player implements Runnable, ServerAPI{
     private PrintWriter out;
     private int points;
     private int guess;
+    private Game joinedGame;
 
     public Player(Socket clientSocket) {
         try {
@@ -102,8 +103,8 @@ public class Player implements Runnable, ServerAPI{
             if (request.startsWith("join ")) {
                 String gameName = request.substring(5);
                 // For now, let's just acknowledge the request
-                if (join(gameName))
-                    break;
+                join(gameName);
+                break;
             } else {
                 out.println("ERROR Invalid request"); // Send error message to client
             }
@@ -155,12 +156,21 @@ public class Player implements Runnable, ServerAPI{
         if (game != null && !game.getPlayers().contains(this)) {
             // Add this player to the game
             game.addPlayer(this);
+            joinedGame = game;
             // Send acknowledgment to the client
             out.println("JOINED " + game.getName());
             return true;
         } else {
             // Send error message to client if the game doesn't exist
-            out.println("ERROR Game does not exist");
+            out.println("Game does not exist. Creating a new game...");
+            // Create a new game
+            joinedGame = new Game(gameName);
+            // Add this player to the game
+            joinedGame.addPlayer(this);
+            // Add the game to the list of games
+            Server.gamesList.add(game);
+            // Send acknowledgment to the client
+            out.println("JOINED " + game.getName());
             return false;
         }
     }
