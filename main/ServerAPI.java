@@ -16,4 +16,5 @@ public interface ServerAPI {
     void ready(Game game);
     void guess(Game game, int number);
     void error(String error);
+    void chat(String message);
 }
