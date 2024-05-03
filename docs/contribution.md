@@ -21,10 +21,10 @@ summary of the project and details of the implementation.
  
 ## Contributions
  
-| Member |       Date | Description |
-| :----- | ---------: | :---------- |
-| Marwan | 2024-05-01 | Started the project |
-| ...    |            |             |
+| Member  |       Date | Description                            |
+|:--------|-----------:|:---------------------------------------|
+| Marwan  | 2024-05-01 | Started the project                    |
+| Abdulla | 2024-05-03 | Did some cleaning to the OOP structure |
  
 ## References
 - [Java Socket Programming - Multiple Clients Chat](https://youtu.be/gLfuZrrfKes) heavily inspired the socket, client, server basics.
