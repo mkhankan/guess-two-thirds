@@ -27,5 +27,5 @@ summary of the project and details of the implementation.
 | ...    |            |             |
  
 ## References
- 
+- [Java Socket Programming - Multiple Clients Chat](https://youtu.be/gLfuZrrfKes) heavily inspired the socket, client, server basics.
 - [Process Communication](https://queue.qa/cmps405/projects/02-communication/) used to understand the project
