@@ -63,10 +63,8 @@ public class Player implements Runnable, ServerAPI{
     public void run() {
         while (clientSocket.isConnected()) {
             try {
-                handleIdent();
-
-                handleGameJoin();
-
+                String request = in.readLine();
+                handleRequest(request);
             } catch (IOException e) {
                 closeEverything(clientSocket, in, out);
                 break;
@@ -74,40 +72,44 @@ public class Player implements Runnable, ServerAPI{
         }
 
     }
+    private void handleRequest(String request) throws IOException {
+        String[] parts = request.split(" ");
+        String command = parts[0];
 
-    private void handleIdent() throws IOException {
-        while (true) {
-            out.println("IDENT"); // Request identification
-            String identification = in.readLine(); // Receive identification from client
-
-            // Handle identification
-            if (identification.startsWith("pseudo ")) {
-                String pseudo = identification.substring(7); // Extract pseudonym
+        switch (command) {
+            case "pseudo":
+                String pseudo = request.substring(7); // Extract pseudonym
                 pseudo(pseudo); // Generate new ticket and associate it with pseudonym
                 break;
-            } else if (identification.startsWith("ticket ")) {
-                String ticket = identification.substring(7); // Extract ticket
+            case "ticket":
+                String ticket = request.substring(7); // Extract ticket
                 boolean isValid = ticket(ticket); // Validate received ticket and, if valid, welcome player with pseudonym
-                if (isValid)
-                    break;
-            } else {
-                out.println("ERROR Invalid identification"); // Send error message to client
-            }
-        }
-    }
-
-    private void handleGameJoin() throws IOException {
-        // Handle game joining
-        while (true) {
-            String request = in.readLine();
-            if (request.startsWith("join ")) {
+                if (!isValid) {
+                    out.println("ERROR Invalid ticket"); // Send error message to client
+                }
+                break;
+            case "join":
                 String gameName = request.substring(5);
-                // For now, let's just acknowledge the request
                 join(gameName);
                 break;
-            } else {
+            case "ready":
+                if (joinedGame != null) {
+                    ready(joinedGame);
+                } else {
+                    out.println("ERROR You have not joined any game."); // Send error message to client
+                }
+                break;
+            case "guess":
+                if (joinedGame != null) {
+                    int number = Integer.parseInt(parts[1]); // Extract the guessed number
+                    guess(joinedGame, number);
+                } else {
+                    out.println("ERROR You have not joined any game."); // Send error message to client
+                }
+                break;
+            default:
                 out.println("ERROR Invalid request"); // Send error message to client
-            }
+                break;
         }
     }
 
