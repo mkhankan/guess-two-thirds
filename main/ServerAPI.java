@@ -1,35 +1,18 @@
 package main;
 
-import java.util.List;
-
 public interface ServerAPI {
     /*
     Command	Arguments	Actions
-    ident		send ticket or pseudonym
-    ticket	ticket	store ticket for reuse
-    menu	players
-    games	list of connected players and list of available games
-    list	game
-    players	list of players in game
-    notify	game
-    player	player joined game
-    start	game	game started
-    round	game
-    number players guesses points results [eliminated]	round ended with corresponding information
-    end	game player	game ended with player winning
-    info	message	information message
-    error	message	error message
+    pseudo	pseudonym	generate new ticket and associate it with pseudonym
+    ticket	ticket	validate received ticket and, if valid, welcome player with pseudonym
+    join	game	add player to game if it exists, otherwise create a new game
+    ready	game	confirm player readiness for game
+    guess	game
+    number	receive player guess for current round of game
      */
-    void ident();
+    void pseudo(String pseudonym);
     void ticket(String ticket);
-    void menu(List<Player> players, List<Game> games);
-    void list(Game game, List<Player> players);
-    void notify(Game game, Player player);
-    void start(Game game);
-    void round(Game game, int number, List<Player> players, List<Integer> guesses, List<Integer> points, List<Boolean> results, List<Player> eliminated);
-    void end(Game game, Player player);
-    void info(String message);
-    void error(String message);
-
-
+    void join(Game game);
+    void ready(Game game);
+    void guess(Game game, int number);
 }
