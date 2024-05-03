@@ -7,9 +7,9 @@ public class Server {
     private static final int PORT = 13337;
     private ServerSocket serverSocket;
 
-    public static List<Player> playersList = Collections.synchronizedList(new ArrayList<>());
-    public static Map<String,String> ticketsMap = Collections.synchronizedMap(new HashMap<>());
-    public static List<Game> gamesList = Collections.synchronizedList(new ArrayList<>());
+    public static final List<Player> playersList = Collections.synchronizedList(new ArrayList<>());
+    public static final Map<String,String> ticketsMap = Collections.synchronizedMap(new HashMap<>());
+    public static final List<Game> gamesList = Collections.synchronizedList(new ArrayList<>());
 
     public Server(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;

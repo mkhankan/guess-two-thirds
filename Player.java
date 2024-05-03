@@ -52,7 +52,7 @@ public class Player implements Runnable {
                 // out.close();
                 // clientSocket.close();
             } catch (IOException e) {
-                closeEverything(clientSocket,in,out);
+                closeEverything(clientSocket, in, out);
                 break;
             }
         }
@@ -69,12 +69,17 @@ public class Player implements Runnable {
                 String pseudo = identification.substring(7); // Extract pseudonym
                 String ticket = generateTicket(String.valueOf(seq)); // Generate ticket
                 seq++;
-                Server.ticketsMap.put(ticket, pseudo); // Store ticket-pseudonym pair
+                synchronized (Server.ticketsMap) {
+                    Server.ticketsMap.put(ticket, pseudo); // Store ticket-pseudonym pair
+                }
                 out.println("TICKET " + ticket); // Send ticket to client
                 break;
             } else if (identification.startsWith("ticket ")) {
                 String ticket = identification.substring(7); // Extract ticket
-                String pseudo = Server.ticketsMap.get(ticket); // Get pseudonym associated with ticket
+                String pseudo;
+                synchronized (Server.ticketsMap) {
+                    pseudo = Server.ticketsMap.get(ticket); // Get pseudonym associated with ticket
+                }
                 if (pseudo != null) {
                     out.println("WELCOME " + pseudo); // Send welcome message to client
                     break;
