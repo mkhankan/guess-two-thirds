@@ -93,7 +93,7 @@ public class Player implements Runnable, ServerAPI{
                 String ticket = request.substring(7); // Extract ticket
                 boolean isValid = ticket(ticket); // Validate received ticket and, if valid, welcome player with pseudonym
                 if (!isValid) {
-                    out.println("ERROR Invalid ticket"); // Send error message to client
+                    error("Invalid ticket");
                 }
                 break;
             case "join":
@@ -104,7 +104,7 @@ public class Player implements Runnable, ServerAPI{
                 if (joinedGame != null) {
                     ready(joinedGame);
                 } else {
-                    out.println("ERROR You have not joined any game."); // Send error message to client
+                    error("You have not joined any game.");
                 }
                 break;
             case "guess":
@@ -112,13 +112,26 @@ public class Player implements Runnable, ServerAPI{
                     int number = Integer.parseInt(parts[1]); // Extract the guessed number
                     guess(game,number);
                 } else {
-                    out.println("ERROR You have not joined any game."); // Send error message to client
+                    error("You have not joined any game.");
+                }
+                break;
+            case "chat":
+                if (joinedGame != null) {
+                    String message = request.substring(5); // Extract the message
+                    joinedGame.chat(this, message);
+                } else {
+                    error("You have not joined any game.");
                 }
                 break;
             default:
-                out.println("ERROR Invalid request"); // Send error message to client
+                error("Invalid request.");
                 break;
         }
+    }
+
+    @Override
+    public void error(String error){
+        out.println("ERROR "+error);
     }
 
     static String generateTicket(String seq) {
@@ -140,6 +153,9 @@ public class Player implements Runnable, ServerAPI{
         synchronized (Server.ticketsMap) {
             Server.ticketsMap.put(ticket, pseudonym); // Store ticket-pseudonym pair
         }
+        synchronized (Server.playersList) {
+            Server.playersList.add(this); // Add player to the list of players
+        }
         out.println("TICKET " + ticket); // Send ticket to client
 
     }
@@ -154,7 +170,7 @@ public class Player implements Runnable, ServerAPI{
             out.println("WELCOME " + pseudo); // Send welcome message to client
             return true;
         } else {
-            out.println("ERROR Invalid ticket"); // Send error message to client
+            error("Invalid ticket");
         }
         return false;
 
@@ -175,6 +191,9 @@ public class Player implements Runnable, ServerAPI{
             out.println("Game does not exist. Creating a new game...");
             // Create a new game
             joinedGame = new Game(gameName);
+            synchronized (Server.gamesList){
+                Server.gamesList.add(joinedGame);
+            }
             // Add this player to the game
             joinedGame.addPlayer(this);
             // Add the game to the list of games
@@ -189,6 +208,7 @@ public class Player implements Runnable, ServerAPI{
     public void ready(Game game) {
         // Set player's readiness status
         game.getName();
+        game.setReady(this);
         // Send acknowledgment to the player
         out.println("You are ready for the game.");
     }
@@ -196,7 +216,7 @@ public class Player implements Runnable, ServerAPI{
     @Override
     public void guess(Game game,int number) {
         // Set player's guess
-        this.setGuess(number);
+        game.setGuess(this, number);
         // Send acknowledgment to the player
         out.println("Your guess has been recorded.");
     }
