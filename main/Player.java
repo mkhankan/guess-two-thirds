@@ -185,5 +185,9 @@ public class Player implements Runnable, ServerAPI{
 
     @Override
     public void guess(Game game, int number) {
+        // Set player's guess
+        game.setGuess(player, number);
+        // Send acknowledgment to the player
+        out.println("Your guess has been recorded.");
     }
     }
