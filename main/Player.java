@@ -164,7 +164,7 @@ public class Player implements Runnable, ServerAPI{
             Server.playersList.add(this); // Add player to the list of players
         }
         out.println("TICKET " + ticket); // Send ticket to client
-
+        out.println("LEADERBOARD "+Server.getLeaderBoard());
     }
 
     @Override
@@ -175,6 +175,7 @@ public class Player implements Runnable, ServerAPI{
         }
         if (pseudo != null) {
             out.println("WELCOME " + pseudo); // Send welcome message to client
+            out.println("LEADERBOARD "+Server.getLeaderBoard());
             return true;
         } else {
             error("Invalid ticket");

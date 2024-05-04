@@ -21,6 +21,7 @@ public class Server implements ClientAPI{
     public static final List<Player> playersList = Collections.synchronizedList(new ArrayList<>());
     public static final Map<String,String> ticketsMap = Collections.synchronizedMap(new HashMap<>());
     public static final List<Game> gamesList = Collections.synchronizedList(new ArrayList<>());
+    private static final List<Player> leaderBoard = Collections.synchronizedList(new ArrayList<>(5));
 
     public Server(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;
@@ -58,6 +59,31 @@ public class Server implements ClientAPI{
             }
         }
 
+    }
+
+    public static String getLeaderBoard(){
+        StringBuilder leaderBoard = new StringBuilder();
+        synchronized (Server.leaderBoard) {
+            for (int i = 0; i < Server.leaderBoard.size(); i++) {
+                Player player = Server.leaderBoard.get(i);
+                leaderBoard.append("#").append(i+1)
+                        .append(player.getName()).append(" ")
+                        .append(player.getPoints()).append(" ");
+            }
+        }
+        return leaderBoard.toString();
+    }
+
+    public static void updateLeaderBoard(Player player){
+        synchronized (Server.leaderBoard) {
+            for (int i = 0; i < 5; i++) {
+                if (player.getPoints() > Server.leaderBoard.get(i).getPoints()) {
+                    Server.leaderBoard.add(i, player);
+                    Server.leaderBoard.remove(5);
+                    break;
+                }
+            }
+        }
     }
 
     @Override
