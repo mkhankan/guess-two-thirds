@@ -134,6 +134,11 @@ public class Player implements Runnable, ServerAPI{
         out.println("ERROR "+error);
     }
 
+    @Override
+    public void info(String message){
+        out.println("INFO "+message);
+    }
+
     static String generateTicket(String seq) {
         byte[] hash = String.format("%32s", seq).getBytes();
         try {
@@ -210,7 +215,7 @@ public class Player implements Runnable, ServerAPI{
         game.getName();
         game.setReady(this);
         // Send acknowledgment to the player
-        out.println("You are ready for the game.");
+        info("You are ready for the game.");
     }
 
     @Override
@@ -218,10 +223,16 @@ public class Player implements Runnable, ServerAPI{
         // Set player's guess
         game.setGuess(this, number);
         // Send acknowledgment to the player
-        out.println("Your guess has been recorded.");
+        info("Your guess has been recorded.");
     }
 
+    /**
+     * Send message to the player
+     * Used for chat
+     * @param msg
+     */
     public void sendMessage(String msg){
         out.println(msg);
     }
-    }
+
+}
