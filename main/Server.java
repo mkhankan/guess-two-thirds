@@ -60,15 +60,6 @@ public class Server implements ClientAPI{
 
     }
 
-    public static Game getGame(String gameName) {
-        for (Game game : gamesList) {
-            if (game.getName().equals(gameName)) {
-                return game;
-            }
-        }
-        return null;
-    }
-
     @Override
     public void ident() {
 

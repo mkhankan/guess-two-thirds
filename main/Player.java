@@ -110,7 +110,7 @@ public class Player implements Runnable, ServerAPI{
             case "guess":
                 if (joinedGame != null) {
                     int number = Integer.parseInt(parts[1]); // Extract the guessed number
-                    guess(game,number);
+                    guess(joinedGame,number);
                 } else {
                     error("You have not joined any game.");
                 }
