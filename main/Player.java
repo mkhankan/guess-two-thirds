@@ -69,6 +69,7 @@ public class Player implements Runnable, ServerAPI{
 
     @Override
     public void run() {
+        out.println("IDENT"); // Request identification
         while (clientSocket.isConnected()) {
             try {
                 String request = in.readLine();
@@ -81,6 +82,7 @@ public class Player implements Runnable, ServerAPI{
 
     }
     private void handleRequest(String request) throws IOException {
+//        System.out.println("Received request: " + request);
         String[] parts = request.split(" ");
         String command = parts[0];
 

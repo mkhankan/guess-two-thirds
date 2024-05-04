@@ -1,9 +1,6 @@
 package main;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -56,10 +53,14 @@ public class Client {
             @Override
             public void run() {
                 String msgFromServer;
-
                 while (socket.isConnected()){
                     try {
                         msgFromServer = in.readLine();
+//                        if (msgFromServer.toLowerCase().startsWith("ident")) {
+//                            handleIdent();
+//                        }else {
+//                            System.out.println(timeStamp()+" "+msgFromServer);
+//                        }
                         System.out.println(timeStamp()+" "+msgFromServer);
                     }catch (IOException e){
                         closeConnection(socket,in,out);
@@ -80,5 +81,55 @@ public class Client {
 
     static String timeStamp() {
         return LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+    }
+
+    private void handleIdent(){
+            if (socket.isConnected()){
+                String storedTicket = getTicket();
+                if (storedTicket != null) {
+                    out.println("ticket " + storedTicket);
+                }else {
+                    System.out.println("Enter your name: ");
+                    String name = scanner.nextLine();
+                    out.println("pseudo " + name);
+                    try {
+                        String response = in.readLine();
+                        if (response.toLowerCase().startsWith("ticket")) {
+                            String ticket = response.substring(7);
+                            storeTicket(ticket);
+                        }
+                    } catch (IOException e) {
+                        closeConnection(socket, in, out);
+                    }
+                }
+            }
+    }
+
+    private void storeTicket(String ticket) {
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream("ticket.txt");
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(ticket);
+            System.out.println("Ticket stored successfully");
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    private String getTicket(){
+        try {
+            FileInputStream fileInputStream = new FileInputStream("ticket.txt");
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            String ticket = (String) objectInputStream.readObject();
+            System.out.println(
+                    "Found local ticket"
+            );
+            return ticket;
+        }catch (FileNotFoundException e){
+            return null;
+        }catch (IOException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }
