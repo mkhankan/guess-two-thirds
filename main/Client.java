@@ -60,7 +60,7 @@ public class Client {
                 while (socket.isConnected()){
                     try {
                         msgFromServer = in.readLine();
-                        System.out.println(msgFromServer);
+                        System.out.println(timeStamp()+" "+msgFromServer);
                     }catch (IOException e){
                         closeConnection(socket,in,out);
                     }
