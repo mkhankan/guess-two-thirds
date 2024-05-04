@@ -77,7 +77,10 @@ public class Server implements ClientAPI{
     public static void updateLeaderBoard(Player player){
         synchronized (Server.leaderBoard) {
             for (int i = 0; i < 5; i++) {
-                if (player.getPoints() > Server.leaderBoard.get(i).getPoints()) {
+                if(Server.leaderBoard.get(i)==null){
+                    Server.leaderBoard.add(i, player);
+                    break;
+                }else if(player.getPoints() > Server.leaderBoard.get(i).getPoints()) {
                     Server.leaderBoard.add(i, player);
                     Server.leaderBoard.remove(5);
                     break;
