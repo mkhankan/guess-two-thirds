@@ -34,37 +34,6 @@ public class Game {
         }
     }
 
-    public void startGame() {
-        if (players.size() < 2) {
-            System.out.println("Cannot start the game. Minimum of 2 players required.");
-            return;
-        }
-
-        for (Player player : players) {
-            player.setPoints(5); // Set initial points for each player
-            System.out.println("The game has started Round 1 you have 5 points");
-        }
-
-        roundNumber = 1; // Initialize round number
-        gameEnded = false; // Reset game end flag
-
-        // Notify players that the game has started
-
-        // Start the first round
-        startRound();
-    }
-
-    private void startRound() {
-        double avg = calculateAvgGuess();
-        Player winner = determineWinner(avg);
-        for (Player player : players) {
-            if (player != winner) {
-                handleLoser(player);
-            }
-        }
-        concludeRound();
-    }
-
     private void handleLoser(Player player) {
         if (player.getPoints() > 1) {
             player.setPoints(player.getPoints() - 1);
@@ -104,6 +73,7 @@ public class Game {
         }
         return closestPlayer;
     }
+    
 
     public ArrayList<Player> getPlayers() {
         return players;
