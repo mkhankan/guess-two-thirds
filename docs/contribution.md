@@ -11,7 +11,7 @@ summary of the project and details of the implementation.
 ## Challenges
  
 1. Extracting the pseudonym and ticket number from the message. Solved with `string.substring(beginIndex);`
-2. Challenge #2 with details
+2. Figure thread system in games.
 3. ...
  
 ## Issues
@@ -29,6 +29,8 @@ summary of the project and details of the implementation.
 | Abdulla | 2024-05-03 | Did some cleaning to the OOP structure  |
 | Marwan  | 2024-05-04 | Create interfaces and organize the code |
 | Osamah  | 2024-05-04 | add to contribution                     |
+| Abdulla | 2024-05-04 | Added auto ticket storing to client     |
+| Abdulla | 2024-05-04 | Continued after Marwan's work           |
  
 ## References
 - [Java Socket Programming - Multiple Clients Chat](https://youtu.be/gLfuZrrfKes) heavily inspired the socket, client, server basics.
