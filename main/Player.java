@@ -220,4 +220,8 @@ public class Player implements Runnable, ServerAPI{
         // Send acknowledgment to the player
         out.println("Your guess has been recorded.");
     }
+
+    public void sendMessage(String msg){
+        out.println(msg);
+    }
     }
