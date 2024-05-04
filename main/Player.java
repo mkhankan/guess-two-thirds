@@ -18,6 +18,7 @@ public class Player implements Runnable, ServerAPI{
     private int guess;
     private Game joinedGame;
     private String name;
+    private String ticket;
 
     public Player(Socket clientSocket) {
         try {
@@ -51,6 +52,13 @@ public class Player implements Runnable, ServerAPI{
         return this.name;
     }
 
+    public void setTicket(String ticket){
+        this.ticket= ticket;
+    }
+
+    public String getTicket(){
+        return this.ticket;
+    }
     public void closeEverything(Socket socket, BufferedReader bufferedReader, PrintWriter printWriter) {
         try {
             if (bufferedReader != null) {
@@ -160,6 +168,7 @@ public class Player implements Runnable, ServerAPI{
         synchronized (Server.ticketsMap) {
             Server.ticketsMap.put(ticket, pseudonym); // Store ticket-pseudonym pair
         }
+        this.name = pseudonym;
         synchronized (Server.playersList) {
             Server.playersList.add(this); // Add player to the list of players
         }
@@ -174,6 +183,7 @@ public class Player implements Runnable, ServerAPI{
             pseudo = Server.ticketsMap.get(ticket); // Get pseudonym associated with ticket
         }
         if (pseudo != null) {
+            this.name = pseudo;
             out.println("WELCOME " + pseudo); // Send welcome message to client
             out.println("LEADERBOARD "+Server.getLeaderBoard());
             return true;
