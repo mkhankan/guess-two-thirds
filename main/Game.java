@@ -72,18 +72,49 @@ public class Game implements Runnable{
 
 
     public void startGame() {
-        // Wait for all players to be ready
         for (Player p : players) {
-            while (p.ready==false);
+            while (p.ready == false) ;
         }
-
-        // Send start message to each player
         for (Player p : players) {
             p.setPoints(5);
             p.sendMessage("The game has started. Enter your guess: ");
         }
-
     }
+
+
+        public void startRound() {
+            // Wait for all players to enter their guesses
+            boolean allGuessed = false;
+            while (!allGuessed) {
+                allGuessed = true;
+                for (Player player : players) {
+                    if (player.getGuess() == -1) {
+                        allGuessed = false;
+                        break;
+                    }
+                }
+                // Sleep for a short while to avoid busy-waiting
+                try {
+                    Thread.sleep(1000); // Adjust as needed
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            // Calculate average guess and determine the winner
+            double avgGuess = calculateAvgGuess();
+            List<Player> winners = determineWinner(avgGuess);
+
+            // Handle losers and conclude round
+            for (Player player : players) {
+                if (!winners.contains(player)){
+                    handleLoser(player);
+                }
+            }
+            concludeRound();
+        }
+
+
 
     private void endRound() {
         double avgGuess = calculateAvgGuess();
