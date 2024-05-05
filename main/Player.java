@@ -208,13 +208,39 @@ public class Player implements Runnable, ClientAPI{
     }
 
     @Override
-    public void menu(List<Player> players, List<Game> games) {
-
+    public void menu(List<Player> players) {
+        for (Game game : Server.gamesList) {
+            StringBuilder gamesList = new StringBuilder("MENU: ");
+            for (Player player : players) {
+                gamesList.append(player.getName()).append(",");
+            }
+            if (!players.isEmpty()) {
+                gamesList.deleteCharAt(gamesList.length() - 1);
+            }
+            gamesList.append(" " + game.getName());
+            out.println(gamesList);
+        }
+        StringBuilder gamesList = new StringBuilder("MENU: ");
+        for(Player player: joinedGame.getPlayers()){
+            gamesList.append(player.getName() + ',');
+        }
+        if (!players.isEmpty()) {
+            gamesList.deleteCharAt(gamesList.length() - 1);
+        }
+        gamesList.append(" " + joinedGame.getName());
     }
 
     @Override
     public void list(Game game, List<Player> players) {
-
+        StringBuilder playerList = new StringBuilder("LIST: ");
+        playerList.append(game.getName()).append(" ");
+        for (Player player : players) {
+            playerList.append(player.getName()).append(",");
+        }
+        if (!players.isEmpty()) {
+            playerList.deleteCharAt(playerList.length() - 1);
+        }
+        out.println(playerList);
     }
 
     @Override
