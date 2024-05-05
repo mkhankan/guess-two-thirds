@@ -83,43 +83,9 @@ public class Game implements Runnable{
             p.sendMessage("The game has started. Enter your guess: ");
         }
 
-<<<<<<< HEAD
     }
-
-
-
-    public void startRound() {
-        // Wait for all players to enter their guesses
-        boolean allGuessed = false;
-        while (!allGuessed) {
-            allGuessed = true;
-            for (Player player : players) {
-                if (player.getGuess() == -1) {
-                    allGuessed = false;
-                    break;
-                }
-            }
-            // Sleep for a short while to avoid busy-waiting
-            try {
-                Thread.sleep(1000); // Adjust as needed
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        // Calculate average guess and determine the winner
-=======
-                roundNumber = 1; // Initialize round number
-                gameEnded = false; // Reset game end flag
-
-                endRound();
-            }
-        }, 3 * 60 * 1000); // Delay of 3 minutes before starting the game (in milliseconds)
-    }
-
 
     private void endRound() {
->>>>>>> 645858881816c8a0f15de059067eacaec6b232f5
         double avgGuess = calculateAvgGuess();
         List<Player> winners = determineWinner(avgGuess);
 
@@ -147,12 +113,10 @@ public class Game implements Runnable{
                 winners.add(player);
             }
         }
-<<<<<<< HEAD
+
         concludeRound();
-=======
 
         return winners;
->>>>>>> 645858881816c8a0f15de059067eacaec6b232f5
     }
 
 

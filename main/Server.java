@@ -52,7 +52,7 @@ public class Server {
                 playersList.add(player);
                 Thread clientThread = new Thread(player);
                 clientThread.start();
-<<<<<<< HEAD
+
 //                for(Game g : gamesList){
 //                    boolean allPlayersReady = true;
 //                    for(Player p : g.getPlayers()){
@@ -66,8 +66,7 @@ public class Server {
 //                    }
 //                }
 
-=======
->>>>>>> 645858881816c8a0f15de059067eacaec6b232f5
+
 
 //                for (Player p : playersList){
 //                    if(p.lastResponseTime >= (System.currentTimeMillis()+(2000))){

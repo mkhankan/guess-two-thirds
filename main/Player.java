@@ -270,13 +270,9 @@ public class Player implements Runnable, ClientAPI{
         }
     }
 
-<<<<<<< HEAD
+
     @Override
     public boolean ready(Game game) {
-=======
-
-    public void ready(Game game) {
->>>>>>> 645858881816c8a0f15de059067eacaec6b232f5
         // Set player's readiness status
         game.getName();
         game.setReady(this);
@@ -286,13 +282,8 @@ public class Player implements Runnable, ClientAPI{
         return true;
     }
 
-<<<<<<< HEAD
     @Override
     public boolean guess(Game game,int number) {
-=======
-
-    public void guess(Game game,int number) {
->>>>>>> 645858881816c8a0f15de059067eacaec6b232f5
         // Set player's guess
         game.setGuess(this, number);
         // Send acknowledgment to the player
