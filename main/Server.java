@@ -28,12 +28,16 @@ public class Server implements ClientAPI{
     }
 
     public static Game getGame(String gameName) {
-        for (Game game : gamesList){
-            if(game.getName().equalsIgnoreCase(gameName)){
-                return game;
+        synchronized (gamesList) {
+
+            for (Game game : gamesList) {
+                if (game.getName().equalsIgnoreCase(gameName)) {
+                    return game;
+                }
             }
         }
         return null;
+
     }
 
     public void startServer() {

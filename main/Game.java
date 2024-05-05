@@ -18,18 +18,20 @@ public class Game {
 
     public void notifyPlayers(Player player) {
         for (Player p : players) {
-            System.out.println(player.getName() + " has joined.");
+            p.sendMessage("NOTIFY: "+player.getName()+ " has Joined the game");
         }
     }
 
     public void addPlayer(Player player) {
+
         if (players.contains(player)) {
-            System.out.println(player.getName() + " has already joined.");
+           player.sendMessage("you already joined");
         } else {
             if (players.size() < MAX_PLAYERS) {
+                notifyPlayers(player);
                 players.add(player);
             } else {
-                System.out.println("The game is full.");
+                player.sendMessage("The game is full.");
             }
         }
     }
