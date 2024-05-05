@@ -1,5 +1,6 @@
 package main;
-
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -77,22 +78,33 @@ public class Game implements Runnable{
         }
         return closestPlayer;
     }
+
+
     public void startGame() {
         if (players.size() < 2) {
-            System.out.println("Cannot start the game. Minimum of 2 players required.");
-            return;
+            for (Player p : players) {
+                p.sendMessage("Waiting for others players to join...");
+            }
+            return; // Exit early if there are not enough players
         }
 
-        for (Player player : players) {
-            player.setPoints(5); // Set initial points for each player
-            System.out.println("The game has started. Round 1 begins now. You have 5 points.");
-        }
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                for (Player player : players) {
+                    player.setPoints(5); // Set initial points for each player
+                    player.sendMessage("The game has started. Round 1 begins now. You have 5 points.");
+                }
 
-        roundNumber = 1; // Initialize round number
-        gameEnded = false; // Reset game end flag
+                roundNumber = 1; // Initialize round number
+                gameEnded = false; // Reset game end flag
 
-        startRound();
+                startRound();
+            }
+        }, 3 * 60 * 1000); // Delay of 3 minutes before starting the game (in milliseconds)
     }
+
 
     private void startRound() {
         double avgGuess = calculateAvgGuess();

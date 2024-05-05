@@ -52,21 +52,25 @@ public class Server implements ClientAPI{
                 playersList.add(player);
                 Thread clientThread = new Thread(player);
                 clientThread.start();
-                for(Game g : gamesList ){
+                for(Game g : gamesList){
+                    boolean allPlayersReady = true;
                     for(Player p : g.getPlayers()){
-                        if (p.ready == false){
-                            return;
-                        }else{
-                            start(g);
+                        if (!p.ready){
+                            allPlayersReady = false;
+                            break;
                         }
+                    }
+                    if (allPlayersReady){
+                        start(g);
                     }
                 }
 
-                for (Player p : playersList){
-                    if(p.lastResponseTime >= (System.currentTimeMillis()+(2000))){
-                        clientThread.interrupt();
-                    }
-                }
+
+//                for (Player p : playersList){
+//                    if(p.lastResponseTime >= (System.currentTimeMillis()+(2000))){
+//                        clientThread.interrupt();
+//                    }
+//                }
 
 
             }

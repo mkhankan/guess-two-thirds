@@ -240,6 +240,9 @@ public class Player implements Runnable, ServerAPI{
         game.setReady(this);
         // Send acknowledgment to the player
         info("You are ready for the game.");
+        while (true) {
+            game.startGame();
+        }
     }
 
     @Override
