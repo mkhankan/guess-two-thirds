@@ -109,6 +109,9 @@ public class Player implements Runnable, ServerAPI{
                 break;
             case "join":
                 String gameName = request.substring(5);
+                if (gameName.isEmpty()) {
+                    gameName = "Game" + (int) (Math.random() * 1000);
+                }
                 join(gameName);
                 break;
             case "ready":
