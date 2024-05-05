@@ -48,8 +48,27 @@ public class Server implements ClientAPI{
                 System.out.println("New client connected: " + clientSocket);
 
                 // Handle client connection
-                Thread clientThread = new Thread(new Player(clientSocket));
+                Player player= new Player(clientSocket);
+                playersList.add(player);
+                Thread clientThread = new Thread(player);
                 clientThread.start();
+                for(Game g : gamesList ){
+                    for(Player p : g.getPlayers()){
+                        if (p.ready == false){
+                            return;
+                        }else{
+                            start(g);
+                        }
+                    }
+                }
+
+                for (Player p : playersList){
+                    if(p.lastResponseTime >= (System.currentTimeMillis()+(2000))){
+                        clientThread.interrupt();
+                    }
+                }
+
+
             }
         } catch (IOException e) {
             e.printStackTrace();

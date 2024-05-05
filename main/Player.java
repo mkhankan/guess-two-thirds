@@ -19,7 +19,9 @@ public class Player implements Runnable, ServerAPI{
     private Game joinedGame;
     private String name;
     private String ticket;
-    private boolean ready = false;
+    public boolean ready = false;
+    public long lastResponseTime;
+
 
     public Player(Socket clientSocket) {
         try {
@@ -124,6 +126,7 @@ public class Player implements Runnable, ServerAPI{
             case "guess":
                 if (joinedGame != null) {
                     int number = Integer.parseInt(parts[1]); // Extract the guessed number
+                    lastResponseTime= System.currentTimeMillis();
                     guess(joinedGame,number);
                 } else {
                     error("You have not joined any game.");

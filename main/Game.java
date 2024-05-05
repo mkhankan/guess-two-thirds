@@ -1,17 +1,19 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-public class Game {
+public class Game implements Runnable{
     private String name;
-    private ArrayList<Player> players;
+    private List<Player> players;
     private int roundNumber;
     private boolean gameEnded;
     private static final int MAX_PLAYERS = 6;
 
     public Game(String name) {
         this.name = name;
-        this.players = new ArrayList<>();
+        this.players = Collections.synchronizedList(new ArrayList<>());;
         this.roundNumber = 0;
         this.gameEnded = false;
     }
@@ -105,7 +107,7 @@ public class Game {
         concludeRound();
     }
 
-    public ArrayList<Player> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
@@ -122,5 +124,21 @@ public class Game {
     }
 
     public void chat(Player player, String message) {
+    }
+
+    @Override
+    public void run() {
+        try {
+            synchronized (players){
+                for (Player p : players){
+
+                }
+            }
+
+
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }
