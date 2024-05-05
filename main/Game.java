@@ -16,7 +16,7 @@ public class Game implements Runnable{
     public Game(String name) {
         this.name = name;
         this.players = Collections.synchronizedList(new ArrayList<>());;
-        this.roundNumber = 1;
+        this.roundNumber = 0;
         this.gameEnded = false;
     }
 
@@ -55,6 +55,7 @@ public class Game implements Runnable{
             names += player.getName() + ",";
             scores += player.getPoints() + ",";
         }
+        System.out.println("round"+this.getName()+this.roundNumber+names+scores);
     }
 
     public double calculateAvgGuess() {
@@ -69,22 +70,24 @@ public class Game implements Runnable{
 
 
     public void startGame() {
-        // Wait for all players to be ready
-        for (Player p : players) {
-            while (p.ready==false);
+        if (players.size() < 2) {
+            for (Player p : players) {
+                p.sendMessage("Waiting for others players to join...");
+            }
+            return; // Exit early if there are not enough players
         }
 
-        // Send start message to each player
-        for (Player p : players) {
-            p.setPoints(5);
-            p.sendMessage("The game has started. Enter your guess: ");
-        }
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                for (Player player : players) {
+                    player.setPoints(5); // Set initial points for each player
+                    player.sendMessage("The game has started. Round 1 begins now. You have 5 points.");
+                }
 
-    }
-
-
-
-
+                roundNumber = 1; // Initialize round number
+                gameEnded = false; // Reset game end flag
 
                 endRound();
             }
@@ -96,7 +99,6 @@ public class Game implements Runnable{
         double avgGuess = calculateAvgGuess();
         List<Player> winners = determineWinner(avgGuess);
 
-        // Handle losers and conclude round
         for (Player player : players) {
             if (!winners.contains(player)) {
                 handleLoser(player);
@@ -124,7 +126,6 @@ public class Game implements Runnable{
         return winners;
     }
 
-
     public List<Player> getPlayers() {
         return players;
     }
@@ -150,23 +151,17 @@ public class Game implements Runnable{
 
     @Override
     public void run() {
+        try {
+            synchronized (players){
+                for (Player p : players){
 
+                }
+            }
+
+
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
 
     }
-
-
-//    public void run() {
-//        try {
-//            synchronized (players){
-//                for (Player p : players){
-//
-//                }
-//            }
-//
-//
-//        }catch(Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//    }
 }

@@ -13,8 +13,8 @@ public interface ServerAPI {
     void pseudo(String pseudonym);
     boolean ticket(String ticket);
     boolean join(String gameName);
-    boolean ready(Game game);
-    boolean guess(Game game, int number);
+    void ready(Game game);
+    void guess(Game game, int number);
     void error(String error);
     void info(String message);
 }
