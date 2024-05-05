@@ -64,6 +64,8 @@ public class Server implements ClientAPI{
     public static String getLeaderBoard(){
         StringBuilder leaderBoard = new StringBuilder();
         synchronized (Server.leaderBoard) {
+            if(Server.leaderBoard.isEmpty())
+                return "NO ONE SCORED YET!";
             for (int i = 0; i < Server.leaderBoard.size(); i++) {
                 Player player = Server.leaderBoard.get(i);
                 leaderBoard.append("#").append(i+1)

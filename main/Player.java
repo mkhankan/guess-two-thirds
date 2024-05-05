@@ -218,7 +218,7 @@ public class Player implements Runnable, ServerAPI{
             // Add the game to the list of games
             Server.gamesList.add(game);
             // Send acknowledgment to the client
-            out.println("JOINED " + game.getName());
+            out.println("JOINED " + joinedGame.getName());
             return false;
         }
     }
