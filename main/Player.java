@@ -196,6 +196,10 @@ public class Player implements Runnable, ServerAPI{
     }
     @Override
     public boolean join(String gameName) {
+        if (this.name== null) {
+            error("You must identify yourself first.");
+            return false;
+        }
         // Check if the game exists
         Game game = Server.getGame(gameName);
         if (game != null && !game.getPlayers().contains(this)) {
@@ -252,4 +256,5 @@ public class Player implements Runnable, ServerAPI{
     public void setReady() {
         this.ready=true;
     }
+
 }
