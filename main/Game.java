@@ -44,6 +44,7 @@ public class Game implements Runnable{
         if (player.getPoints() > 1) {
             player.setPoints(player.getPoints() - 1);
         } else {
+            player.sendMessage("You have been eliminated from the game.");
             players.remove(player);
         }
     }
@@ -55,9 +56,12 @@ public class Game implements Runnable{
             names += player.getName() + ",";
             scores += player.getPoints() + ",";
         }
+        this.roundNumber++;
         for (Player player : players) {
-            player.sendMessage("round " + getName() +" "+ this.roundNumber++ +"   "+ names + scores);
+            player.sendMessage("round " + getName() +" "+ this.roundNumber +"  "+ names + scores);
+            player.setGuess(-1);
         }
+
     }
 
     public double calculateAvgGuess() {
