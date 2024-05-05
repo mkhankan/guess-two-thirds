@@ -182,6 +182,7 @@ public class Player implements Runnable, ClientAPI{
         }
         out.println("TICKET " + ticket); // Send ticket to client
         out.println("LEADERBOARD "+Server.getLeaderBoard());
+        menu();
     }
 
     @Override
@@ -199,6 +200,7 @@ public class Player implements Runnable, ClientAPI{
             this.name = pseudo;
             out.println("WELCOME " + pseudo); // Send welcome message to client
             out.println("LEADERBOARD "+Server.getLeaderBoard());
+            menu();
             return true;
         } else {
             error("Invalid ticket");
@@ -208,26 +210,20 @@ public class Player implements Runnable, ClientAPI{
     }
 
     @Override
-    public void menu(List<Player> players) {
+    public void menu() {
+        StringBuilder gamesList = new StringBuilder("MENU: ");
+        synchronized (Server.gamesList){
         for (Game game : Server.gamesList) {
-            StringBuilder gamesList = new StringBuilder("MENU: ");
-            for (Player player : players) {
+            for (Player player : game.getPlayers()) {
                 gamesList.append(player.getName()).append(",");
             }
-            if (!players.isEmpty()) {
+            if (!game.getPlayers().isEmpty()) {
                 gamesList.deleteCharAt(gamesList.length() - 1);
             }
             gamesList.append(" " + game.getName());
-            out.println(gamesList);
         }
-        StringBuilder gamesList = new StringBuilder("MENU: ");
-        for(Player player: joinedGame.getPlayers()){
-            gamesList.append(player.getName() + ',');
         }
-        if (!players.isEmpty()) {
-            gamesList.deleteCharAt(gamesList.length() - 1);
-        }
-        gamesList.append(" " + joinedGame.getName());
+        out.println(gamesList);
     }
 
     @Override
@@ -277,6 +273,7 @@ public class Player implements Runnable, ClientAPI{
             joinedGame = game;
             // Send acknowledgment to the client
             out.println("JOINED " + game.getName());
+            list(joinedGame, joinedGame.getPlayers());
             return true;
         } else {
             // Send error message to client if the game doesn't exist
@@ -297,7 +294,7 @@ public class Player implements Runnable, ClientAPI{
     }
 
 
-    @Override
+
     public boolean ready(Game game) {
         // Set player's readiness status
         game.getName();
@@ -308,7 +305,7 @@ public class Player implements Runnable, ClientAPI{
         return true;
     }
 
-    @Override
+
     public boolean guess(Game game,int number) {
         // Set player's guess
         game.setGuess(this, number);
