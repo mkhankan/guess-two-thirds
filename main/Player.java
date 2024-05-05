@@ -214,13 +214,16 @@ public class Player implements Runnable, ClientAPI{
         StringBuilder gamesList = new StringBuilder("MENU: ");
         synchronized (Server.gamesList){
         for (Game game : Server.gamesList) {
-            for (Player player : game.getPlayers()) {
-                gamesList.append(player.getName()).append(",");
+            if(game != null) {
+                for (Player player : game.getPlayers()) {
+                    gamesList.append(player.getName()).append(",");
+                }
+
+                if (!game.getPlayers().isEmpty()) {
+                    gamesList.deleteCharAt(gamesList.length() - 1);
+                }
+                gamesList.append(" " + game.getName());
             }
-            if (!game.getPlayers().isEmpty()) {
-                gamesList.deleteCharAt(gamesList.length() - 1);
-            }
-            gamesList.append(" " + game.getName());
         }
         }
         out.println(gamesList);

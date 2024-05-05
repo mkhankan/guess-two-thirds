@@ -56,7 +56,7 @@ public class Game implements Runnable{
             scores += player.getPoints() + ",";
         }
         for (Player player : players) {
-            player.sendMessage("round " + getName() + this.roundNumber++ + names + scores);
+            player.sendMessage("round " + getName() +" "+ this.roundNumber++ +"   "+ names + scores);
         }
     }
 
@@ -82,7 +82,7 @@ public class Game implements Runnable{
     }
 
 
-        public synchronized void startRound() {
+        public void startRound() {
             // Wait for all players to enter their guesses
             boolean allGuessed = false;
             while (!allGuessed) {
