@@ -21,7 +21,7 @@ public interface ClientAPI {
     error	message	error message
      */
     void ident();
-    void ticket(String ticket);
+    boolean ticket(String ticket);
     void menu(List<Player> players, List<Game> games);
     void list(Game game, List<Player> players);
     void notify(Game game, Player player);
