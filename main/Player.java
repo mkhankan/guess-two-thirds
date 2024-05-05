@@ -208,26 +208,20 @@ public class Player implements Runnable, ClientAPI{
     }
 
     @Override
-    public void menu(List<Player> players) {
+    public void menu(List<Player> players, List<Game> Games) {
+        StringBuilder gamesList = new StringBuilder("MENU: ");
+        synchronized (Server.gamesList){
         for (Game game : Server.gamesList) {
-            StringBuilder gamesList = new StringBuilder("MENU: ");
-            for (Player player : players) {
+            for (Player player : game.getPlayers()) {
                 gamesList.append(player.getName()).append(",");
             }
-            if (!players.isEmpty()) {
+            if (!game.getPlayers().isEmpty()) {
                 gamesList.deleteCharAt(gamesList.length() - 1);
             }
             gamesList.append(" " + game.getName());
-            out.println(gamesList);
         }
-        StringBuilder gamesList = new StringBuilder("MENU: ");
-        for(Player player: joinedGame.getPlayers()){
-            gamesList.append(player.getName() + ',');
         }
-        if (!players.isEmpty()) {
-            gamesList.deleteCharAt(gamesList.length() - 1);
-        }
-        gamesList.append(" " + joinedGame.getName());
+        out.println(gamesList);
     }
 
     @Override
@@ -277,6 +271,7 @@ public class Player implements Runnable, ClientAPI{
             joinedGame = game;
             // Send acknowledgment to the client
             out.println("JOINED " + game.getName());
+            list(joinedGame, joinedGame.getPlayers());
             return true;
         } else {
             // Send error message to client if the game doesn't exist
