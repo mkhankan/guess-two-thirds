@@ -270,6 +270,7 @@ public class Player implements Runnable, ClientAPI{
         }
     }
 
+    
 
     public void ready(Game game) {
         // Set player's readiness status
@@ -277,17 +278,20 @@ public class Player implements Runnable, ClientAPI{
         game.setReady(this);
         // Send acknowledgment to the player
         info("You are ready for the game.");
-        while (true) {
-            game.startGame();
-        }
+        game.startGame();
+        return true;
     }
 
+   
 
     public void guess(Game game,int number) {
         // Set player's guess
         game.setGuess(this, number);
         // Send acknowledgment to the player
         info("Your guess has been recorded.");
+        game.startRound();
+        this.setGuess(-1);
+        return true;
     }
 
     /**

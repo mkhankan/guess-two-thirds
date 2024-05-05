@@ -53,6 +53,8 @@ public class Server {
                 Thread clientThread = new Thread(player);
                 clientThread.start();
 
+
+
 //                for (Player p : playersList){
 //                    if(p.lastResponseTime >= (System.currentTimeMillis()+(2000))){
 //                        clientThread.interrupt();
