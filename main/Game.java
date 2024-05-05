@@ -11,6 +11,7 @@ public class Game implements Runnable{
     private int roundNumber;
     private boolean gameEnded;
     private static final int MAX_PLAYERS = 6;
+    private int guesses = 0;
 
     public Game(String name) {
         this.name = name;
@@ -48,13 +49,13 @@ public class Game implements Runnable{
     }
 
     public void concludeRound() {
-        String names =" ";
-        String scores = " ";
+        String names ="";
+        String scores = "";
         for (Player player : players) {
             names += player.getName() + ",";
             scores += player.getPoints() + ",";
         }
-        System.out.println("round"+getName()+this.roundNumber+names+scores);
+        System.out.println("round"+this.getName()+this.roundNumber+names+scores);
     }
 
     public double calculateAvgGuess() {
@@ -65,19 +66,7 @@ public class Game implements Runnable{
         return (sum / players.size()) * (2.0 / 3.0);
     }
 
-    public Player determineWinner(double avgGuess) {
-        Player closestPlayer = null;
-        double minDifference = Double.MAX_VALUE;
 
-        for (Player player : players) {
-            double difference = Math.abs(avgGuess - player.getGuess());
-            if (difference < minDifference) {
-                minDifference = difference;
-                closestPlayer = player;
-            }
-        }
-        return closestPlayer;
-    }
 
 
     public void startGame() {
@@ -100,23 +89,41 @@ public class Game implements Runnable{
                 roundNumber = 1; // Initialize round number
                 gameEnded = false; // Reset game end flag
 
-                startRound();
+                endRound();
             }
         }, 3 * 60 * 1000); // Delay of 3 minutes before starting the game (in milliseconds)
     }
 
 
-    private void startRound() {
+    private void endRound() {
         double avgGuess = calculateAvgGuess();
-        Player winner = determineWinner(avgGuess);
+        List<Player> winners = determineWinner(avgGuess);
 
         for (Player player : players) {
-            if (player != winner) {
+            if (!winners.contains(player)) {
                 handleLoser(player);
+            }
+
+
+            concludeRound();
+        }
+    }
+    public List<Player> determineWinner(double avgGuess) {
+        List<Player> winners = new ArrayList<>();
+        double minDiff = Double.MAX_VALUE;
+
+        for (Player player : players) {
+            double diff = Math.abs(player.getGuess() - avgGuess);
+            if (diff < minDiff) {
+                winners.clear();
+                winners.add(player);
+                minDiff = diff;
+            } else if (diff == minDiff) {
+                winners.add(player);
             }
         }
 
-        concludeRound();
+        return winners;
     }
 
     public List<Player> getPlayers() {
@@ -129,6 +136,10 @@ public class Game implements Runnable{
 
     public void setGuess(Player player, int number) {
         player.setGuess(number);
+        guesses++;
+        if (guesses == players.size()) {
+            endRound();
+        }
     }
 
     public void setReady(Player player) {
