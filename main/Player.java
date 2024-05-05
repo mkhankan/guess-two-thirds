@@ -182,6 +182,7 @@ public class Player implements Runnable, ClientAPI{
         }
         out.println("TICKET " + ticket); // Send ticket to client
         out.println("LEADERBOARD "+Server.getLeaderBoard());
+        menu();
     }
 
     @Override
@@ -199,6 +200,7 @@ public class Player implements Runnable, ClientAPI{
             this.name = pseudo;
             out.println("WELCOME " + pseudo); // Send welcome message to client
             out.println("LEADERBOARD "+Server.getLeaderBoard());
+            menu();
             return true;
         } else {
             error("Invalid ticket");
@@ -208,7 +210,7 @@ public class Player implements Runnable, ClientAPI{
     }
 
     @Override
-    public void menu(List<Player> players, List<Game> Games) {
+    public void menu() {
         StringBuilder gamesList = new StringBuilder("MENU: ");
         synchronized (Server.gamesList){
         for (Game game : Server.gamesList) {
@@ -292,7 +294,7 @@ public class Player implements Runnable, ClientAPI{
     }
 
 
-    @Override
+
     public boolean ready(Game game) {
         // Set player's readiness status
         game.getName();
@@ -303,7 +305,7 @@ public class Player implements Runnable, ClientAPI{
         return true;
     }
 
-    @Override
+
     public boolean guess(Game game,int number) {
         // Set player's guess
         game.setGuess(this, number);

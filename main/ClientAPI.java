@@ -22,7 +22,7 @@ public interface ClientAPI {
      */
     void ident();
     boolean ticket(String ticket);
-    void menu(List<Player> players, List<Game> games);
+    void menu();
     void list(Game game, List<Player> players);
     void notify(Game game, Player player);
     void start(Game game);
