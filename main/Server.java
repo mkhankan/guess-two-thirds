@@ -25,6 +25,7 @@ public class Server {
 
     public Server(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;
+        Server.gamesList.add(new Game("defaultGame"));
     }
 
     public static Game getGame(String gameName) {
