@@ -84,33 +84,36 @@ public class Game implements Runnable{
 
         public void startRound() {
             // Wait for all players to enter their guesses
-            boolean allGuessed = false;
-            while (!allGuessed) {
-                allGuessed = true;
+//            boolean allGuessed = false;
+//            while (!allGuessed) {
+//
+//                // Sleep for a short while to avoid busy-waiting
+//                try {
+//                    Thread.sleep(1000); // Adjust as needed
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+            boolean allGuessed = true;
+            for (Player player : players) {
+                if (player.getGuess() == -1) {
+                    allGuessed = false;
+                    break;
+                }
+            }
+            if(allGuessed) {
+                // Calculate average guess and determine the winner
+                double avgGuess = calculateAvgGuess();
+                List<Player> winners = determineWinner(avgGuess);
+
+                // Handle losers and conclude round
                 for (Player player : players) {
-                    if (player.getGuess() == -1) {
-                        allGuessed = false;
-                        break;
+                    if (!winners.contains(player)) {
+                        handleLoser(player);
                     }
                 }
-                // Sleep for a short while to avoid busy-waiting
-                try {
-                    Thread.sleep(1000); // Adjust as needed
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                concludeRound();
             }
-            // Calculate average guess and determine the winner
-            double avgGuess = calculateAvgGuess();
-            List<Player> winners = determineWinner(avgGuess);
-
-            // Handle losers and conclude round
-            for (Player player : players) {
-                if (!winners.contains(player)){
-                    handleLoser(player);
-                }
-            }
-            concludeRound();
         }
 
 
