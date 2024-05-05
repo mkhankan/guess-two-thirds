@@ -32,4 +32,7 @@ public interface ClientAPI {
     void error(String message);
 
 
+    boolean ready(Game game);
+
+    boolean guess(Game game, int number);
 }

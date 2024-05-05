@@ -11,7 +11,7 @@ public class Game implements Runnable{
     private int roundNumber;
     private boolean gameEnded;
     private static final int MAX_PLAYERS = 6;
-    private int guesses = 0;
+    private int guesses = -1;
 
     public Game(String name) {
         this.name = name;
@@ -82,7 +82,7 @@ public class Game implements Runnable{
     }
 
 
-        public void startRound() {
+        public synchronized void startRound() {
             // Wait for all players to enter their guesses
             boolean allGuessed = false;
             while (!allGuessed) {
@@ -100,7 +100,6 @@ public class Game implements Runnable{
                     e.printStackTrace();
                 }
             }
-
             // Calculate average guess and determine the winner
             double avgGuess = calculateAvgGuess();
             List<Player> winners = determineWinner(avgGuess);
@@ -145,8 +144,6 @@ public class Game implements Runnable{
             }
         }
 
-        concludeRound();
-
         return winners;
     }
 
@@ -161,10 +158,6 @@ public class Game implements Runnable{
 
     public void setGuess(Player player, int number) {
         player.setGuess(number);
-        guesses++;
-        if (guesses == players.size()) {
-            endRound();
-        }
     }
 
     public void setReady(Player player) {
@@ -179,20 +172,4 @@ public class Game implements Runnable{
 
 
     }
-
-
-//    public void run() {
-//        try {
-//            synchronized (players){
-//                for (Player p : players){
-//
-//                }
-//            }
-//
-//
-//        }catch(Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//    }
 }
