@@ -52,18 +52,18 @@ public class Server implements ClientAPI{
                 playersList.add(player);
                 Thread clientThread = new Thread(player);
                 clientThread.start();
-                for(Game g : gamesList){
-                    boolean allPlayersReady = true;
-                    for(Player p : g.getPlayers()){
-                        if (!p.ready){
-                            allPlayersReady = false;
-                            break;
-                        }
-                    }
-                    if (allPlayersReady){
-                        start(g);
-                    }
-                }
+//                for(Game g : gamesList){
+//                    boolean allPlayersReady = true;
+//                    for(Player p : g.getPlayers()){
+//                        if (!p.ready){
+//                            allPlayersReady = false;
+//                            break;
+//                        }
+//                    }
+//                    if (allPlayersReady){
+//                        start(g);
+//                    }
+//                }
 
 
 //                for (Player p : playersList){
