@@ -16,7 +16,7 @@ public class Player implements Runnable, ClientAPI{
     private BufferedReader in;
     private PrintWriter out;
     private int points;
-    private int guess;
+    private int guess = -1;
     private Game joinedGame;
     private String name;
     private String ticket;
@@ -315,7 +315,7 @@ public class Player implements Runnable, ClientAPI{
         // Send acknowledgment to the player
         info("Your guess has been recorded.");
         game.startRound();
-        this.setGuess(-1);
+//        this.setGuess(-1);
         return true;
     }
 
