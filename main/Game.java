@@ -72,12 +72,21 @@ public class Game implements Runnable{
 
 
     public void startGame() {
-        for (Player p : players) {
-            while (p.ready == false) ;
+//        for (Player p : players) {
+//            while (p.ready == false) ;
+//        }
+        boolean allReady = true;
+        for (Player player : players) {
+            if (!player.ready) {
+                allReady = false;
+                break;
+            }
         }
-        for (Player p : players) {
-            p.setPoints(5);
-            p.sendMessage("The game has started. Enter your guess: ");
+        if(allReady) {
+            for (Player p : players) {
+                p.setPoints(5);
+                p.sendMessage("The game has started. Enter your guess: ");
+            }
         }
     }
 
