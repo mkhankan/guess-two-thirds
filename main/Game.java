@@ -110,4 +110,13 @@ public class Game {
     public String getName() {
         return this.name;
     }
+
+    public void setGuess(Player player, int number) {
+    }
+
+    public void setReady(Player player) {
+    }
+
+    public void chat(Player player, String message) {
+    }
 }
