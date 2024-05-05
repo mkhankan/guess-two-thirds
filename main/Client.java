@@ -56,11 +56,11 @@ public class Client {
                 while (socket.isConnected()){
                     try {
                         msgFromServer = in.readLine();
-                        if (msgFromServer.toLowerCase().startsWith("ident")) {
-                            handleIdent();
-                        }else {
-                            System.out.println(timeStamp()+" "+msgFromServer);
-                        }
+//                        if (msgFromServer.toLowerCase().startsWith("ident")) {
+//                            handleIdent();
+//                        }else {
+//                            System.out.println(timeStamp()+" "+msgFromServer);
+//                        }
                         System.out.println(timeStamp()+" "+msgFromServer);
                     }catch (IOException e){
                         closeConnection(socket,in,out);
