@@ -19,6 +19,7 @@ public class Player implements Runnable, ServerAPI{
     private Game joinedGame;
     private String name;
     private String ticket;
+    private boolean ready = false;
 
     public Player(Socket clientSocket) {
         try {
@@ -248,4 +249,7 @@ public class Player implements Runnable, ServerAPI{
         out.println(msg);
     }
 
+    public void setReady() {
+        this.ready=true;
+    }
 }

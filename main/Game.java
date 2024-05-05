@@ -112,9 +112,11 @@ public class Game {
     }
 
     public void setGuess(Player player, int number) {
+        player.setGuess(number);
     }
 
     public void setReady(Player player) {
+        player.setReady();
     }
 
     public void chat(Player player, String message) {
