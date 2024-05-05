@@ -89,8 +89,25 @@ public class Client {
                 if (storedTicket != null) {
                     out.println("ticket " + storedTicket);
                 }else {
-                    System.out.println("Enter your name: ");
-                    String name = scanner.nextLine();
+                    String name;
+                    boolean validName = true;
+                    while (true){
+                        System.out.println("Enter your name: ");
+                        name = scanner.nextLine();
+                        for (char c : name.toCharArray()){
+                            if (!Character.isLetterOrDigit(c)){
+                                System.out.println("Name should not contain special characters");
+                                validName = false;
+                                break;
+                            }
+
+                        }
+                        if (validName){
+                            break;
+                        }
+                    }  // name should not contain special characters
+
+
                     out.println("pseudo " + name);
                     try {
                         String response = in.readLine();
