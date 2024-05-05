@@ -110,10 +110,10 @@ public class Player implements Runnable, ServerAPI{
                 }
                 break;
             case "join":
-                String gameName = request.substring(5);
-                if (gameName.isEmpty()) {
+                String gameName;
+                if (parts.length < 2) {
                     gameName = "Game" + (int) (Math.random() * 1000);
-                }
+                } else gameName= request.substring(5);
                 join(gameName);
                 break;
             case "ready":
