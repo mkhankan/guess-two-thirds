@@ -56,11 +56,11 @@ public class Client {
                 while (socket.isConnected()){
                     try {
                         msgFromServer = in.readLine();
-//                        if (msgFromServer.toLowerCase().startsWith("ident")) {
-//                            handleIdent();
-//                        }else {
-//                            System.out.println(timeStamp()+" "+msgFromServer);
-//                        }
+                        if (msgFromServer.toLowerCase().startsWith("ident")) {
+                            handleIdent();
+                        }else {
+                            System.out.println(timeStamp()+" "+msgFromServer);
+                        }
                         System.out.println(timeStamp()+" "+msgFromServer);
                     }catch (IOException e){
                         closeConnection(socket,in,out);
@@ -91,21 +91,18 @@ public class Client {
                 }else {
                     String name;
                     boolean validName = true;
-                    while (true){
+                    do { // name should not contain special characters
                         System.out.println("Enter your name: ");
                         name = scanner.nextLine();
-                        for (char c : name.toCharArray()){
-                            if (!Character.isLetterOrDigit(c)){
+                        for (char c : name.toCharArray()) {
+                            if (!Character.isLetterOrDigit(c) && c != '\0') {
                                 System.out.println("Name should not contain special characters");
                                 validName = false;
                                 break;
                             }
 
                         }
-                        if (validName){
-                            break;
-                        }
-                    }  // name should not contain special characters
+                    } while(!validName);
 
 
                     out.println("pseudo " + name);
