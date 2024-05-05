@@ -90,7 +90,7 @@ public class Player implements Runnable, ServerAPI{
         }
 
     }
-    private void handleRequest(String request) throws IOException {
+    private void handleRequest(String request) {
 //        System.out.println("Received request: " + request);
         String[] parts = request.split(" ");
         String command = parts[0];
