@@ -8,8 +8,9 @@ import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HexFormat;
+import java.util.List;
 
-public class Player implements Runnable, ServerAPI{
+public class Player implements Runnable, ClientAPI{
     private Socket clientSocket;
     private static int seq = 0;
     private BufferedReader in;
@@ -80,7 +81,7 @@ public class Player implements Runnable, ServerAPI{
 
     @Override
     public void run() {
-        out.println("IDENT"); // Request identification
+        ident();
         while (clientSocket.isConnected()) {
             try {
                 String request = in.readLine();
@@ -168,7 +169,7 @@ public class Player implements Runnable, ServerAPI{
         return HexFormat.ofDelimiter(":").formatHex(hash).toString().substring(78);
     }
 
-    @Override
+
     public void pseudo(String pseudonym) {
         String ticket = generateTicket(String.valueOf(seq)); // Generate ticket
         seq++;
@@ -181,6 +182,11 @@ public class Player implements Runnable, ServerAPI{
         }
         out.println("TICKET " + ticket); // Send ticket to client
         out.println("LEADERBOARD "+Server.getLeaderBoard());
+    }
+
+    @Override
+    public void ident() {
+        out.println("IDENT"); // Request identification
     }
 
     @Override
@@ -200,7 +206,38 @@ public class Player implements Runnable, ServerAPI{
         return false;
 
     }
+
     @Override
+    public void menu(List<Player> players, List<Game> games) {
+
+    }
+
+    @Override
+    public void list(Game game, List<Player> players) {
+
+    }
+
+    @Override
+    public void notify(Game game, Player player) {
+
+    }
+
+    @Override
+    public void start(Game game) {
+
+    }
+
+    @Override
+    public void round(Game game, int number, List<Player> players, List<Integer> guesses, List<Integer> points, List<Boolean> results, List<Player> eliminated) {
+
+    }
+
+    @Override
+    public void end(Game game, Player player) {
+
+    }
+
+
     public boolean join(String gameName) {
         if (this.name== null) {
             error("You must identify yourself first.");
@@ -233,8 +270,9 @@ public class Player implements Runnable, ServerAPI{
         }
     }
 
-    @Override
-    public boolean ready(Game game) {
+    
+
+    public void ready(Game game) {
         // Set player's readiness status
         game.getName();
         game.setReady(this);
@@ -244,8 +282,9 @@ public class Player implements Runnable, ServerAPI{
         return true;
     }
 
-    @Override
-    public boolean guess(Game game,int number) {
+   
+
+    public void guess(Game game,int number) {
         // Set player's guess
         game.setGuess(this, number);
         // Send acknowledgment to the player

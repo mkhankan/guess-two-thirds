@@ -11,6 +11,7 @@ public class Game implements Runnable{
     private int roundNumber;
     private boolean gameEnded;
     private static final int MAX_PLAYERS = 6;
+    private int guesses = 0;
 
     public Game(String name) {
         this.name = name;
@@ -48,14 +49,11 @@ public class Game implements Runnable{
     }
 
     public void concludeRound() {
-        String names =" ";
-        String scores = " ";
+        String names ="";
+        String scores = "";
         for (Player player : players) {
             names += player.getName() + ",";
             scores += player.getPoints() + ",";
-        }
-        for (Player player : players) {
-            player.sendMessage("round " + getName() + this.roundNumber++ + names + scores);
         }
     }
 
@@ -67,19 +65,7 @@ public class Game implements Runnable{
         return (sum / players.size()) * (2.0 / 3.0);
     }
 
-    public Player determineWinner(double avgGuess) {
-        Player closestPlayer = null;
-        double minDifference = Double.MAX_VALUE;
 
-        for (Player player : players) {
-            double difference = Math.abs(avgGuess - player.getGuess());
-            if (difference < minDifference) {
-                minDifference = difference;
-                closestPlayer = player;
-            }
-        }
-        return closestPlayer;
-    }
 
 
     public void startGame() {
@@ -98,36 +84,44 @@ public class Game implements Runnable{
 
 
 
-    public void startRound() {
-        // Wait for all players to enter their guesses
-        boolean allGuessed = false;
-        while (!allGuessed) {
-            allGuessed = true;
-            for (Player player : players) {
-                if (player.getGuess() == -1) {
-                    allGuessed = false;
-                    break;
-                }
-            }
-            // Sleep for a short while to avoid busy-waiting
-            try {
-                Thread.sleep(1000); // Adjust as needed
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
 
-        // Calculate average guess and determine the winner
+
+                endRound();
+            }
+        }, 3 * 60 * 1000); // Delay of 3 minutes before starting the game (in milliseconds)
+    }
+
+
+    private void endRound() {
         double avgGuess = calculateAvgGuess();
-        Player winner = determineWinner(avgGuess);
+        List<Player> winners = determineWinner(avgGuess);
 
         // Handle losers and conclude round
         for (Player player : players) {
-            if (player != winner) {
+            if (!winners.contains(player)) {
                 handleLoser(player);
             }
+
+
+            concludeRound();
         }
-        concludeRound();
+    }
+    public List<Player> determineWinner(double avgGuess) {
+        List<Player> winners = new ArrayList<>();
+        double minDiff = Double.MAX_VALUE;
+
+        for (Player player : players) {
+            double diff = Math.abs(player.getGuess() - avgGuess);
+            if (diff < minDiff) {
+                winners.clear();
+                winners.add(player);
+                minDiff = diff;
+            } else if (diff == minDiff) {
+                winners.add(player);
+            }
+        }
+
+        return winners;
     }
 
 
@@ -141,6 +135,10 @@ public class Game implements Runnable{
 
     public void setGuess(Player player, int number) {
         player.setGuess(number);
+        guesses++;
+        if (guesses == players.size()) {
+            endRound();
+        }
     }
 
     public void setReady(Player player) {
