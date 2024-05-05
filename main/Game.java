@@ -81,8 +81,7 @@ public class Game implements Runnable{
         }
     }
 
-<<<<<<< Updated upstream
-=======
+
         public void startRound() {
             // Wait for all players to enter their guesses
             boolean allGuessed = false;
@@ -117,7 +116,6 @@ public class Game implements Runnable{
 
 
 
->>>>>>> Stashed changes
     private void endRound() {
         double avgGuess = calculateAvgGuess();
         List<Player> winners = determineWinner(avgGuess);
